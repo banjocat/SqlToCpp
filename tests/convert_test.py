@@ -1,5 +1,5 @@
 from nose.tools import *
-import sqltocpp
+from sqltocpp import convert
 
 def setup():
     pass
@@ -25,7 +25,7 @@ def test_basic():
     };
     '''
 
-    assert sqltocpp.table_to_struct(sql) == expected
+    assert convert.table_to_struct(sql) == expected
 
 def test_one_line():
     sql = 'CREATE TABLE pizza (id PRIMARY_KEY, topping TEXT, cost REAL);'
@@ -39,6 +39,6 @@ def test_one_line():
     };
     '''
     
-    assert sqltocpp.table_to_struct(sql) == expected
+    assert convert.table_to_struct(sql) == expected
 
 
