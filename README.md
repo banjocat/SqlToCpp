@@ -1,18 +1,15 @@
 [![Build Status](https://travis-ci.org/banjocat/SqlToCpp.svg?branch=master)](https://travis-ci.org/banjocat/SqlToCpp)
 
-# CppSimpleORM
-This was created to help bridge that gap of a legacy project that uses SQLite.
+# SqlToCpp
+This was created to help bridge the gap of a legacy project that uses SQLite.
+Sqlite3 is commonly used in embedded products where C/C++ is the target language.
+SqlToCpp is a python tools to help create structures that represent the database in C++.
 
-What this -WILL- accomplish
-* Convert a SQLite3 schema into a C++ structure
-* Takes a SQLite3 database and creates C++ structures
-* Creates callbacks using the sqlite3 API to use structures
-* Automatically joins tables.
+Main goals
+* Convert a SQlite3 scehma into a C++ structure
+* Create an API from the C++ structures to perform CRUD opperations
+* Create an API that performs SELECT with JOINs if requested
 
-
-To start have a schema.
-example.  
-
-```
-// schema.sql
-
+Future goals still being decided
+* Take a C++ structure header file and turn it into a SQLite schema
+* Diff two SQL schemas and create update script
