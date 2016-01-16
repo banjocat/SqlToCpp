@@ -47,5 +47,21 @@ def table_to_struct(sql):
     return struct.render({'name': tablename, 'members': members})
 
 
+def map_tablename_to_sql(sql):
+    """
+    Returns an array of dictionaries that map each tablename to its sql
+    """
+    regex = r'(CREATE TABLE\s+(\S+)\s+[^;]+;)'
+
+    tables_with_sql = []
+    for (sql, tablename) in re.findall(regex, sql):
+        tables_with_sql.append({
+            'tablename': unicode(tablename),
+            'sql': unicode(sql)
+            })
+
+    print(tables_with_sql)
+    return tables_with_sql
+
 
 
