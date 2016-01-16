@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from builtins import str
 import re
 import jinja2
 
@@ -56,8 +57,8 @@ def map_tablename_to_sql(sql):
     tables_with_sql = []
     for (sql, tablename) in re.findall(regex, sql):
         tables_with_sql.append({
-            'tablename': unicode(tablename),
-            'sql': unicode(sql)
+            'tablename': str(tablename),
+            'sql': str(sql)
             })
 
     print(tables_with_sql)
