@@ -10,7 +10,7 @@ def table_to_struct(sql):
     and returns a text of a C structure to represent it
     """
 
-    #mapping SQL names to C types
+    #mapping SQL names to CPP types
     sql_to_ctype = {
             'INTEGER': 'int',
             'REAL': 'double',
