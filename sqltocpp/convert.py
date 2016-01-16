@@ -1,3 +1,51 @@
+from __future__ import unicode_literals
+import re
+import jinja2
+
+
 
 def table_to_struct(sql):
-    pass
+    """
+    Takes a SQL table schema defined as a text
+    and returns a text of a C structure to represent it
+    """
+
+    #mapping SQL names to C types
+    sql_to_ctype = {
+            'INTEGER': 'int',
+            'REAL': 'double',
+            'TEXT': 'std::string',
+            'BLOB': 'std::string'
+            }
+
+    # Setup jinja to not insert excess newlines
+    j2 = jinja2.Environment(trim_blocks=True, lstrip_blocks=True)
+    struct = j2.from_string('''
+    struct {{ name }}
+    {
+        {% for member in members %}
+        {{member.c_type}} {{ member.name }};
+        {% endfor %}
+    };
+    ''')
+
+    #get table name
+    match_tablename = re.match('\s*CREATE TABLE\s+(\S+)', sql, re.MULTILINE)
+    if match_tablename == None:
+        raise Exception('No CREATE TABLE found in string:', sql)
+
+    tablename = match_tablename.group(1)
+
+    #loop through each definnition
+    #convert SQL definition to struct
+    regex_column = r'\s*\(?(\S+)\s+((?:INTEGER)|(?:REAL)|(?:TEXT)|(?:BLOB))'
+    members = []
+    for (name, sql_type) in re.findall(regex_column, sql, re.IGNORECASE):
+        c_type = sql_to_ctype[sql_type.upper()]
+        members.append({'name': name, 'c_type': c_type})
+
+    return struct.render({'name': tablename, 'members': members})
+
+
+
+
