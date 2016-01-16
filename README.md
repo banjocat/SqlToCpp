@@ -1,5 +1,6 @@
-# CppSimpleORM
+[![Build Status](https://travis-ci.org/banjocat/SqlToCpp.svg?branch=master)](https://travis-ci.org/banjocat/SqlToCpp)
 
+# CppSimpleORM
 This was created to help bridge that gap of a legacy project that uses SQLite.
 
 What this -WILL- accomplish
