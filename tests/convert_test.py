@@ -11,21 +11,21 @@ def teardown():
 
 def test_basic():
     sql = '''
-    CREATE TABLE pizza (
-    id INTEGER PRIMARY_KEY,
-    topping TEXT,
-    cost REAL
-    );
-    '''
+CREATE TABLE pizza (
+id INTEGER PRIMARY_KEY,
+topping TEXT,
+cost REAL
+);
+'''
 
     expected = '''
-    struct pizza
-    {
-        int id;
-        std::string topping;
-        double cost;
-    };
-    '''
+struct pizza
+{
+    int id;
+    std::string topping;
+    double cost;
+};
+'''
 
     assert_equals(convert.table_to_struct(sql),expected)
 
@@ -33,13 +33,13 @@ def test_one_line():
     sql = 'CREATE TABLE pizza (id INTEGER PRIMARY_KEY, topping TEXT, cost REAL);'
 
     expected = '''
-    struct pizza
-    {
-        int id;
-        std::string topping;
-        double cost;
-    };
-    '''
+struct pizza
+{
+    int id;
+    std::string topping;
+    double cost;
+};
+'''
     
     assert_equals(convert.table_to_struct(sql),expected)
 
@@ -91,6 +91,17 @@ def test_map_tablename_to_sql():
             ]
 
     assert_equals(convert.map_tablename_to_sql(sql), expected)
+
+def test_schema_to_struct():
+
+    convert.schema_to_struct('tests/schema1.sql')
+    with open('schema.hpp', 'r') as schema:
+        with open('tests/schemaTest.hpp', 'r') as test:
+            assert_equals(schema.readlines(), test.readlines())
+
+        
+
+
                     
             
             
