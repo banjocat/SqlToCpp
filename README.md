@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/banjocat/SqlToCpp.svg?branch=master)](https://travis-ci.org/banjocat/SqlToCpp) -- master branch
 
-This is in developemnt and has not reached a stable release.
+This is in development and has not reached a stable release.
 
 # SqlToCpp
 This was created to help bridge the gap of a legacy project that uses SQLite.
