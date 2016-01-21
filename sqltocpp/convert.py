@@ -4,11 +4,9 @@ import jinja2
 import os
 
 
-
-def table_to_struct(sql):
+def _sql_to_dict(sql):
     """
-    Takes a SQL table schema defined as a text
-    and returns a text of a C structure to represent it
+    Returns a dict with name and members of a create table sql statement
     """
 
     #mapping SQL names to CPP types
@@ -18,18 +16,6 @@ def table_to_struct(sql):
             'TEXT': 'std::string',
             'BLOB': 'std::string'
             }
-
-    # Setup jinja to not insert excess newlines
-    j2 = jinja2.Environment(trim_blocks=True, lstrip_blocks=True)
-    struct = j2.from_string('''
-struct {{ name }}
-{
-    {% for member in members %}
-    {{member.c_type}} {{ member.name }};
-    {% endfor %}
-};
-
-''')
 
     #get table name
     match_tablename = re.match('\s*CREATE TABLE\s+(\S+)', sql, re.MULTILINE)
@@ -46,7 +32,67 @@ struct {{ name }}
         c_type = sql_to_ctype[sql_type.upper()]
         members.append({'name': name, 'c_type': c_type})
 
-    return struct.render({'name': tablename, 'members': members})
+    return {'name': tablename, 'members': members}
+
+
+
+def table_to_sql_callback(sql):
+    """ 
+    Turns a sql create table into a callback for C sqlite3 api
+    """
+
+    j2 = jinja2.Environment(trim_blocks=True, lstrip_blocks=True)
+    callback_template = j2.from_string('''
+int sql_callback(void *pArg, int argc, char **text, char **columnName)
+{
+    if (!columnName)
+        return -1;
+
+    if (!text)
+        return -2;
+
+    auto * list = (std::vector<{{ name }}>*) pArg;
+    {{ name }} temp;
+    string column(columnName);
+    stringstream value;
+    value.str(text);
+
+    {% for column in columns %}
+    if (column == "{{column}}")
+        {{ name }}.{{column}} << value;
+    {% endfor %}
+
+    return 0;
+}
+''')
+
+    sql_dict = _sql_to_dict(sql)
+    columns = [ column['name'] for column in sql_dict['members'] ]
+    return callback_template.render({"name": sql_dict['name'], "columns": columns })
+    
+
+
+
+def table_to_struct(sql):
+    """
+    Takes a SQL table schema defined as a text
+    and returns a text of a C structure to represent it
+    """
+
+
+    # Setup jinja to not insert excess newlines
+    j2 = jinja2.Environment(trim_blocks=True, lstrip_blocks=True)
+    struct = j2.from_string('''
+struct {{ name }}
+{
+    {% for member in members %}
+    {{member.c_type}} {{ member.name }};
+    {% endfor %}
+};
+
+''')
+
+    return struct.render(_sql_to_dict(sql))
 
 
 def map_tablename_to_sql(sql):
@@ -56,7 +102,7 @@ def map_tablename_to_sql(sql):
     regex = r'(CREATE TABLE\s+(\S+)\s+[^;]+;)'
 
     tables_with_sql = []
-    for (sql, tablename) in re.findall(regex, sql):
+    for (sql, tablename) in re.findall(regex, sql, re.MULTILINE):
         tables_with_sql.append({
             'tablename': tablename,
             'sql': sql
@@ -88,7 +134,7 @@ def schema_to_struct(schema_file, location='schema.hpp'):
         header.write('#include <string>\n')
         header.writelines(struct_list)
 
-        
+
 
 
 
