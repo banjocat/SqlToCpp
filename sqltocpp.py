@@ -3,15 +3,12 @@ from sqltocpp import convert
 
 
 @click.command()
-@click.option('--sql', help='schema file name')
+@click.argument('sql_schema_file')
 @click.option('--target', default='schema.hpp', help='hpp file name')
-def execute(sql, target):
-    convert.schema_to_struct(sql, target)
+def execute(sql_schema_file, target):
+    convert.schema_to_struct(sql_schema_file, target)
 
 
 
 if __name__ == '__main__':
-    try:
-        execute()
-    except:
-        execute("--help")
+    execute()
