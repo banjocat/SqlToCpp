@@ -1,4 +1,6 @@
-[![Build Status](https://travis-ci.org/banjocat/SqlToCpp.svg?branch=master)](https://travis-ci.org/banjocat/SqlToCpp) -- master branch
+[![Build Status](https://travis-ci.org/banjocat/SqlToCpp.svg?branch=master)](https://travis-ci.org/banjocat/SqlToCpp) -- Travis
+
+[![Build Status](http://www.jackmuratore.com:8080/job/sqltocpp/badge/icon)](http://www.jackmuratore.com:8080/job/sqltocpp/) -- Jenkins
 
 This is in development and has not reached a stable release.
 
