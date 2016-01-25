@@ -11,7 +11,7 @@ config = {
     'author_email': 'jackmuratore@gmail.com',
     'version': '0.1',
     'install_requires': ['nose', 'wheel'],
-    'packages': ['sqltocpp', 'Jinja2', 'MarkupSafe', 'nose', 'wheel', 'click'],
+    'packages': ['sqltocpp', 'Jinja2', 'MarkupSafe', 'nose', 'wheel'],
     'scripts': [],
     'name': 'SqlToCpp'
 }
