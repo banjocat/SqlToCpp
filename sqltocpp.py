@@ -8,7 +8,5 @@ from sqltocpp import convert
 def execute(sql_schema_file, target):
     convert.schema_to_struct(sql_schema_file, target)
 
-
-
 if __name__ == '__main__':
     execute()

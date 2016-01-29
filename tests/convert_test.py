@@ -6,11 +6,14 @@ from sqltocpp import convert
 
 assert_equals.__self__.maxDiff = None
 
+
 def setup():
     pass
 
+
 def teardown():
     pass
+
 
 def test_basic():
     sql = '''
@@ -30,7 +33,8 @@ struct pizza
 };
 '''
 
-    assert_equals(convert.table_to_struct(sql),expected)
+    assert_equals(convert.table_to_struct(sql), expected)
+
 
 def test_one_line():
     sql = 'CREATE TABLE pizza (id INTEGER PRIMARY_KEY, topping TEXT, cost REAL);'
@@ -43,16 +47,16 @@ struct pizza
     double cost;
 };
 '''
-    
-    assert_equals(convert.table_to_struct(sql),expected)
+    assert_equals(convert.table_to_struct(sql), expected)
+
 
 def test_map_tablename_to_sql():
 
     with open('tests/schema1.sql', 'r') as fi:
         sql = fi.read()
 
-    expected = [
-            {'tablename': 'people', 'sql':
+    expected = [{
+        'tablename': 'people', 'sql':
 '''CREATE TABLE people
 (
     id INTEGER PRIMARY KEY,
@@ -94,6 +98,7 @@ def test_map_tablename_to_sql():
             ]
 
     assert_equals(convert.map_tablename_to_sql(sql), expected)
+
 
 def test_schema_to_struct():
 
@@ -143,12 +148,3 @@ int sql_callback(void *pArg, int argc, char **text, char **columnName)
 }'''
 
     assert_equals(convert.table_to_sql_callback(sql), expected)
-
-
-
-                    
-            
-            
-
-
-
