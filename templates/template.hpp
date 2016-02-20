@@ -5,36 +5,44 @@
 
 namespace {{database_name}} 
 {
-
-    std::string stringtoupper(const std::string& lower)
-    {
-        string upper;
-        for (auto c : lower)
-            upper.push_back(toupper(c));
-
-        return upper;
-    };
-
-
     {% for tables in tables %}
     class {{tables.name}};
     {% endfor %}
 
     {% for table in tables %}
-    class {{name}}
+    class {{table.name}}
     {
-        {% for column in table.columns %}
-        {{column.ctype}} {{column.name}};
+        {% for column in table.members %}
+        {{column.c_type}} {{column.name}};
         {% endfor %}
 
         static int sqlCallback(void *pArg, int argc, char **text, char **columnName);
     };
+    {% endfor %}
 
 
-
-
+    {% for table in tables %}
+    static int {{table.name}}::sqlCallback(void *pAarg, int argc, char **text, char **columnName)
+    {
+        auto *list = (std::vector<{{ table.name }}>*) pArg;
+        {{ table.name }} rowToAdd;
+        stringstream value;
     
+        for (int i = 0; i < argc; i++)
+        {
+            {% for column in table.members %}
+            if (!str_cmp(columnName[i], "{{ column.name }}"))
+                rowToAdd.{{column.name}} << value.str(text[i]);
+            {% endfor %}
+    
+        }
+    }
+    
+    {% endfor %}
+
+
 };
+
 
 #endif
 
