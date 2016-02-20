@@ -1,7 +1,5 @@
 [![Build Status](https://travis-ci.org/banjocat/SqlToCpp.svg?branch=master)](https://travis-ci.org/banjocat/SqlToCpp) -- Travis
 
-[![Build Status](http://www.jackmuratore.com:8080/job/sqltocpp/badge/icon)](http://www.jackmuratore.com:8080/job/sqltocpp/) -- Jenkins
-
 This is in development and has not reached a stable release.
 
 # SqlToCpp
@@ -11,7 +9,7 @@ SqlToCpp is a python tools to help create structures that represent the database
 
 Main goals that will define the first stable release
 * Convert a SQlite3 schema into a C++ structure - This is currently implemented
-* Create callback functions that are used with SQLite3 C API - This is being worked on next
+* Create callback functions that are used with SQLite3 C API - This is currently implemented
 * Create an API from the C++ structures to perform CRUD opperations
 * Create an API that performs SELECT with JOINs if requested
 
