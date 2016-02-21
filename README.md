@@ -37,8 +37,7 @@ the above. But this is not that project.
 
 
 
-# Future goals for other releases that probably won't ever happen.
-### They are outside my need at this moment
+### Future goals for other releases that probably won't ever happen. They are outside my need at this moment
 
 [ ] Take a C++ structure header file and turn it into a SQLite schema
 
