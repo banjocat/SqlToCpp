@@ -24,7 +24,7 @@ the above. But this is not that project.
 
 
 
-# Requried for stable release
+### Required for stable release. 
 [x] Convert a SQlite3 schema into a C++ structure
 
 [x] Create callback functions that are used with SQLite3 C API
